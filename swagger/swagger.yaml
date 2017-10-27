@@ -1,0 +1,70 @@
+swagger: '2.0'
+info:
+  version: 'v1'
+  title: 'Feedback Server'
+  description: 'This sever returns feedback (errors or lack thereof) for student responses'
+
+paths:
+  /checker/:
+    post:
+      operationId: src.handlers.check_errors
+      summary: "Get feedback"
+      consumes:
+        - "application/json"
+        - "text/plain"
+      parameters:
+        - in: "body"
+          name: "payload"
+          description: "A payload containing pairs of student responses and actual responses."
+          required: true
+          schema:
+            $ref: "#/definitions/request"
+      responses:
+        200:
+          description: "Returns a list containing of feedback messages/codes for each response."
+          schema:
+            $ref: "#/definitions/feedBack"
+        400:
+          description: "cannot get feedback"
+        500:
+          description: "something catastrophic happened"
+
+definitions:
+  request:
+    type: "array"
+    items:
+      $ref: "#/definitions/payLoad"
+  payLoad:
+    type: "object"
+    required:
+    - "studentResponse"
+    properties:
+      studentResponse:
+        type: "string"
+        example: "This is a sple sent"
+      expectedResponse:
+        type: "string"
+        example: "This is a sample sentence."
+  feedBack:
+    type: "array"
+    items:
+      $ref: "#/definitions/messages"
+  messages:
+    type: "object"
+    required:
+    - "feedback"
+    properties:
+      feedback:
+          type: "array"
+          items:
+            type: "string"
+          example:
+            - "The sentence is not properly punctuated."
+            - "Possible spelling mistake found."
+
+
+# Added by API Auto Mocking Plugin
+# host: virtserver.swaggerhub.com
+# basePath: /stefanhosein/test-app/v1
+# schemes:
+#  - https

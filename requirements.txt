@@ -1,0 +1,3 @@
+connexion==1.1.16
+gunicorn==19.7.1
+language-check==1.1
